@@ -82,10 +82,10 @@ if uploaded_files:
     st.subheader("📉 Time Domain")
     fig_time = go.Figure()
 
-    fig_time.add_trace(go.Scatter(x=temp, y=pd1, name="Raw Pd1", line=dict(dash='dot')))
-    fig_time.add_trace(go.Scatter(x=temp, y=filtered_pd1, name="Filtered Pd1"))
-    fig_time.add_trace(go.Scatter(x=temp, y=pd2, name="Raw Pd2", line=dict(dash='dot')))
-    fig_time.add_trace(go.Scatter(x=temp, y=filtered_pd2, name="Filtered Pd2"))
+    fig_time.add_trace(go.Scatter(x=time, y=pd1, name="Raw Pd1", line=dict(dash='dot')))
+    fig_time.add_trace(go.Scatter(x=time, y=filtered_pd1, name="Filtered Pd1"))
+    fig_time.add_trace(go.Scatter(x=time, y=pd2, name="Raw Pd2", line=dict(dash='dot')))
+    fig_time.add_trace(go.Scatter(x=time, y=filtered_pd2, name="Filtered Pd2"))
     st.plotly_chart(fig_time, use_container_width=True)
     fig_time.update_layout(
     title='Time domain Plot',
@@ -119,8 +119,8 @@ if uploaded_files:
 
     # === FFT Plot (Zoomed) ===
     st.subheader("📊 FFT (on Zoomed Pd1 Range)")
-    f1, fft1 = compute_fft(zoomed_pd1, zoomed_fs)
-    f2, fft2 = compute_fft(zoomed_pd2, zoomed_fs)
+    f1, fft1 = compute_fft(filtered_pd1, fs)
+    f2, fft2 = compute_fft(filtered_pd2, fs)
 
     fig_fft = go.Figure()
     
