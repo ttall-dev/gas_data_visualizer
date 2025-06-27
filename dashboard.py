@@ -44,7 +44,7 @@ if uploaded_files:
     pd1 = array_data['rawPd1'][start:end]
     pd2 = array_data['rawPd2'][start:end]
     temp = array_data['ntc_1530'][start:end]
-    fs = compute_sampling_frequency(list(array_data['time']))
+    fs = compute_sampling_frequency(list(array_data['ntc_1530'])) # we analyse the data vs temperature
 
 
     # === Filter selection ===
@@ -82,10 +82,10 @@ if uploaded_files:
     st.subheader("📉 Time Domain")
     fig_time = go.Figure()
 
-    fig_time.add_trace(go.Scatter(x=time, y=pd1, name="Raw Pd1", line=dict(dash='dot')))
-    fig_time.add_trace(go.Scatter(x=time, y=filtered_pd1, name="Filtered Pd1"))
-    fig_time.add_trace(go.Scatter(x=time, y=pd2, name="Raw Pd2", line=dict(dash='dot')))
-    fig_time.add_trace(go.Scatter(x=time, y=filtered_pd2, name="Filtered Pd2"))
+    fig_time.add_trace(go.Scatter(x=temp, y=pd1, name="Raw Pd1", line=dict(dash='dot')))
+    fig_time.add_trace(go.Scatter(x=temp, y=filtered_pd1, name="Filtered Pd1"))
+    fig_time.add_trace(go.Scatter(x=temp, y=pd2, name="Raw Pd2", line=dict(dash='dot')))
+    fig_time.add_trace(go.Scatter(x=temp, y=filtered_pd2, name="Filtered Pd2"))
     st.plotly_chart(fig_time, use_container_width=True)
     fig_time.update_layout(
     title='Time domain Plot',
@@ -105,16 +105,16 @@ if uploaded_files:
     ))
     st.plotly_chart(fig_scatter, use_container_width=True)
 
-    # === Pd1 Range Zoom Slider ===
-    st.write("### 🔍 Zoom Range on Pd1 for FFT")
-    pd1_min, pd1_max = float(np.min(pd1)), float(np.max(pd1))
-    zoom_start, zoom_end = st.slider("Select Pd1 range to recompute FFT", pd1_min, pd1_max, (pd1_min, pd1_max), step=0.0001)
+    # # === Pd1 Range Zoom Slider ===
+    # st.write("### 🔍 Zoom Range on Pd1 for FFT")
+    # pd1_min, pd1_max = float(np.min(pd1)), float(np.max(pd1))
+    # zoom_start, zoom_end = st.slider("Select Pd1 range to recompute FFT", pd1_min, pd1_max, (pd1_min, pd1_max), step=0.0001)
 
-    zoom_mask = (pd1 >= zoom_start) & (pd1 <= zoom_end)
+    # zoom_mask = (pd1 >= zoom_start) & (pd1 <= zoom_end)
 
-    zoomed_pd1 = filtered_pd1[zoom_mask]
-    zoomed_pd2 = filtered_pd2[zoom_mask]
-    zoomed_fs = fs  # Sampling frequency remains same (you can recompute on time if needed)
+    # zoomed_pd1 = filtered_pd1[zoom_mask]
+    # zoomed_pd2 = filtered_pd2[zoom_mask]
+    # zoomed_fs = fs  # Sampling frequency remains same (you can recompute on time if needed)
 
 
     # === FFT Plot (Zoomed) ===
