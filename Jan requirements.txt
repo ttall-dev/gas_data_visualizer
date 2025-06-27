@@ -1,0 +1,10 @@
+Plots:
+Automatic data download
+every info included: prototype, date, filter type, 
+ownership transfer to VTEC admin
+
+wavelet transforms for analysis
+
+contract
+data Ime
+GitHub code Alex
