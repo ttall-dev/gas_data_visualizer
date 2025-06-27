@@ -81,12 +81,17 @@ if uploaded_files:
     # === Time domain ===
     st.subheader("📉 Time Domain")
     fig_time = go.Figure()
+    fig_time.update_layout(
+    title='Time domain Plot',
+    xaxis_title='Time',
+    yaxis_title='Amplitude'
+    )
     fig_time.add_trace(go.Scatter(x=time, y=pd1, name="Raw Pd1", line=dict(dash='dot')))
     fig_time.add_trace(go.Scatter(x=time, y=filtered_pd1, name="Filtered Pd1"))
     fig_time.add_trace(go.Scatter(x=time, y=pd2, name="Raw Pd2", line=dict(dash='dot')))
     fig_time.add_trace(go.Scatter(x=time, y=filtered_pd2, name="Filtered Pd2"))
     st.plotly_chart(fig_time, use_container_width=True)
-
+    
     # === Pd1 vs Pd2 Scatter ===
     st.subheader("🧪 Pd1 vs Pd2")
     fig_scatter = go.Figure()
