@@ -79,5 +79,5 @@ def compute_fft(signal, fs):
 
 def compute_sampling_frequency(time_array):
     fs = len(time_array) /(time_array[-1]-time_array[0])
-    fs *= 1000 # ms to s conversion
+    # fs *= 1000 # ms to s conversion
     return fs

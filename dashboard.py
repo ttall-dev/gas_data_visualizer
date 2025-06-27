@@ -100,6 +100,18 @@ if uploaded_files:
     ))
     st.plotly_chart(fig_scatter, use_container_width=True)
 
+    # === Pd1 Range Zoom Slider ===
+    st.write("### 🔍 Zoom Range on Pd1 for FFT")
+    pd1_min, pd1_max = float(np.min(pd1)), float(np.max(pd1))
+    zoom_start, zoom_end = st.slider("Select Pd1 range to recompute FFT", pd1_min, pd1_max, (pd1_min, pd1_max), step=0.0001)
+
+    zoom_mask = (pd1 >= zoom_start) & (pd1 <= zoom_end)
+
+    zoomed_pd1 = filtered_pd1[zoom_mask]
+    zoomed_pd2 = filtered_pd2[zoom_mask]
+    zoomed_fs = fs  # Sampling frequency remains same (you can recompute on time if needed)
+
+
     # === FFT Plot (Zoomed) ===
     st.subheader("📊 FFT (on Zoomed Pd1 Range)")
     f1, fft1 = compute_fft(zoomed_pd1, zoomed_fs)
@@ -116,13 +128,3 @@ if uploaded_files:
     fig_fft.update_layout(xaxis_title="Frequency (Hz)", yaxis_title="Amplitude")
     st.plotly_chart(fig_fft, use_container_width=True)
 
-    # === Pd1 Range Zoom Slider ===
-    st.write("### 🔍 Zoom Range on Pd1 for FFT")
-    pd1_min, pd1_max = float(np.min(pd1)), float(np.max(pd1))
-    zoom_start, zoom_end = st.slider("Select Pd1 range to recompute FFT", pd1_min, pd1_max, (pd1_min, pd1_max), step=0.0001)
-
-    zoom_mask = (pd1 >= zoom_start) & (pd1 <= zoom_end)
-
-    zoomed_pd1 = filtered_pd1[zoom_mask]
-    zoomed_pd2 = filtered_pd2[zoom_mask]
-    zoomed_fs = fs  # Sampling frequency remains same (you can recompute on time if needed)
