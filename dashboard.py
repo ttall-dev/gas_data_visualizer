@@ -77,17 +77,15 @@ if uploaded_files:
         st.warning(f"⚠️ Filter error: {e}")
         filtered_pd1 = pd1
         filtered_pd2 = pd2
-
-    # === Pd1 Range Zoom Slider ===
-    st.write("### 🔍 Zoom Range on Pd1 for FFT")
-    pd1_min, pd1_max = float(np.min(pd1)), float(np.max(pd1))
-    zoom_start, zoom_end = st.slider("Select Pd1 range to recompute FFT", pd1_min, pd1_max, (pd1_min, pd1_max), step=0.0001)
-
-    zoom_mask = (pd1 >= zoom_start) & (pd1 <= zoom_end)
-
-    zoomed_pd1 = filtered_pd1[zoom_mask]
-    zoomed_pd2 = filtered_pd2[zoom_mask]
-    zoomed_fs = fs  # Sampling frequency remains same (you can recompute on time if needed)
+    
+    # === Time domain ===
+    st.subheader("📉 Time Domain")
+    fig_time = go.Figure()
+    fig_time.add_trace(go.Scatter(x=time, y=pd1, name="Raw Pd1", line=dict(dash='dot')))
+    fig_time.add_trace(go.Scatter(x=time, y=filtered_pd1, name="Filtered Pd1"))
+    fig_time.add_trace(go.Scatter(x=time, y=pd2, name="Raw Pd2", line=dict(dash='dot')))
+    fig_time.add_trace(go.Scatter(x=time, y=filtered_pd2, name="Filtered Pd2"))
+    st.plotly_chart(fig_time, use_container_width=True)
 
     # === Pd1 vs Pd2 Scatter ===
     st.subheader("🧪 Pd1 vs Pd2")
@@ -117,3 +115,14 @@ if uploaded_files:
     
     fig_fft.update_layout(xaxis_title="Frequency (Hz)", yaxis_title="Amplitude")
     st.plotly_chart(fig_fft, use_container_width=True)
+
+    # === Pd1 Range Zoom Slider ===
+    st.write("### 🔍 Zoom Range on Pd1 for FFT")
+    pd1_min, pd1_max = float(np.min(pd1)), float(np.max(pd1))
+    zoom_start, zoom_end = st.slider("Select Pd1 range to recompute FFT", pd1_min, pd1_max, (pd1_min, pd1_max), step=0.0001)
+
+    zoom_mask = (pd1 >= zoom_start) & (pd1 <= zoom_end)
+
+    zoomed_pd1 = filtered_pd1[zoom_mask]
+    zoomed_pd2 = filtered_pd2[zoom_mask]
+    zoomed_fs = fs  # Sampling frequency remains same (you can recompute on time if needed)
