@@ -5,9 +5,15 @@ import numpy as np
 from numpy.fft import rfft, rfftfreq
 from scipy.signal import butter, filtfilt
 import plotly.graph_objects as go
+from datetime import datetime
+
+
+# %%
+
 
 st.set_page_config(layout="wide")
 st.title("🧪 Signal Filter Dashboard (Pd1 / Pd2)")
+
 
 # === Merge CSVs ===
 def merge_uploaded_csvs(uploaded_files):
@@ -118,7 +124,7 @@ if uploaded_files:
 
 
     # === FFT Plot (Zoomed) ===
-    st.subheader("📊 FFT (on Zoomed Pd1 Range)")
+    st.subheader("📊 FFT ")
     f1, fft1 = compute_fft(filtered_pd1, fs)
     f2, fft2 = compute_fft(filtered_pd2, fs)
 
