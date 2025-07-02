@@ -29,12 +29,12 @@ if uploaded_files:
 
     # === Time Parsing ===
     # === Time Parsing ===
-    if df['timestamp'].astype(str).str.contains(",").any():
-        df['timestamp'] = df["timestamp"].astype(str).str.replace(",", ".")
+    if df['timeStamp'].astype(str).str.contains(",").any():
+        df['timeStamp'] = df["timeStamp"].astype(str).str.replace(",", ".")
     else:
-        df['timestamp'] = pd.to_numeric(df['timestamp'], errors='coerce')
+        df['timeStamp'] = pd.to_numeric(df['timeStamp'], errors='coerce')
 
-    df = df[['timestamp', 'intpl_rawPd1', 'intpl_rawPd2', 'intpl_ntc_1530']].dropna()
+    df = df[['timeStamp', 'intpl_rawPd1', 'intpl_rawPd2', 'intpl_ntc_1530']].dropna()
 
 
     
@@ -44,7 +44,7 @@ if uploaded_files:
     st.write("### 🔧 Select Signal Range")
     start, end = st.slider("Select sample indices", 0, len(df)-1, (0, len(df)-1), step=1)
 
-    time = df['timestamp'].iloc[start:end]
+    time = df['timeStamp'].iloc[start:end]
     pd1 = array_data['intpl_rawPd1'][start:end]
     pd2 = array_data['intpl_rawPd2'][start:end]
     temp = array_data['intpl_ntc_1530'][start:end]
