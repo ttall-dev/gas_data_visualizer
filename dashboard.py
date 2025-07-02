@@ -28,19 +28,23 @@ if uploaded_files:
     st.success("✅ Data loaded")
 
     # === Time Parsing ===
-    if df['time'].str.contains(",").any():
-        df['time'] = df["time"].str.replace(",", ".")
+    # === Time Parsing ===
+    if df['timestamp'].astype(str).str.contains(",").any():
+        df['timestamp'] = df["timestamp"].astype(str).str.replace(",", ".")
     else:
-        df['time'] = pd.to_numeric(df['time'], errors='coerce')
+        df['timestamp'] = pd.to_numeric(df['timestamp'], errors='coerce')
 
-    df = df[['time', 'intpl_rawPd1', 'intpl_rawPd2', 'intpl_ntc_1530']].dropna()
+    df = df[['timestamp', 'intpl_rawPd1', 'intpl_rawPd2', 'intpl_ntc_1530']].dropna()
+
+
+    
     labels = df.columns.tolist()
     array_data = {label: df[label].astype(str).str.replace(",", ".").astype(np.float64) for label in labels}
 
     st.write("### 🔧 Select Signal Range")
     start, end = st.slider("Select sample indices", 0, len(df)-1, (0, len(df)-1), step=1)
 
-    time = array_data['time'][start:end]
+    time = df['timestamp'].iloc[start:end]
     pd1 = array_data['intpl_rawPd1'][start:end]
     pd2 = array_data['intpl_rawPd2'][start:end]
     temp = array_data['intpl_ntc_1530'][start:end]
