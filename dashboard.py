@@ -35,7 +35,7 @@ if uploaded_files:
         # st.dataframe(df[['metadata']].dropna().drop_duplicates().reset_index(drop=True))
         
         metadata = df[['metadata']].dropna().drop_duplicates().reset_index(drop=True)
-        st.dataframe(pd.DataFrame(json.loads(df['metadata'][0])))
+        st.dataframe(json.loads(df['metadata'][0]))
         # st.dataframe(df['metadata'][0])
         # st.table(pd.DataFrame([df['metadata'][0]]))
         
