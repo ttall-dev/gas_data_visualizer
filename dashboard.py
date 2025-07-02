@@ -117,7 +117,7 @@ if uploaded_files:
         xaxis_title='t (s)',     # or your real x-axis meaning
         yaxis_title='Amplitude (a.u.)'  # update to real units if you have them
     )
-    relative_time = time-array_data["timeStamp"][0]
+    relative_time = relative_timetime - array_data["timeStamp"][0]
     fig_time.add_trace(go.Scatter(x=relative_time, y=pd1, name="Raw Pd1", line=dict(dash='dot')))
     fig_time.add_trace(go.Scatter(x=relative_time, y=filtered_pd1, name="Filtered Pd1"))
     fig_time.add_trace(go.Scatter(x=relative_time, y=pd2, name="Raw Pd2", line=dict(dash='dot')))
