@@ -54,7 +54,7 @@ if uploaded_files:
     array_data = {label: df[label].astype(str).str.replace(",", ".").astype(np.float64) for label in labels}
 
     st.write("### 🔧 Select Signal Range")
-    timeSelector = array_data["timeStamp"] - array_data["timeStamp"][0]
+    # timeSelector = array_data["timeStamp"] - array_data["timeStamp"][0]
     # st.write(type(timeSelector))
     
     start, end = st.slider("Select sample indices", 0, len(df)-1, (0, len(df)-1), step=1)
@@ -111,7 +111,7 @@ if uploaded_files:
         "hamming window": bandpass_filter_5
     }
     filter_type = st.selectbox("Select filter", list(filter_types.keys()))
-
+    st.button("More documentation about the filtering methods", on_click=lambda: open("https://www.google.com", "_blank"))
     try:
         filter_func = filter_types[filter_type]
         filtered_pd1 = filter_func(pd1, fs=fs)
