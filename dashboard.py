@@ -79,6 +79,12 @@ if uploaded_files:
     # === Time Domain Plot ===
     st.subheader("📉 Time Domain")
     fig_time = go.Figure()
+    fig_time.update_layout(
+        title='Time Domain Plot',
+        xaxis_title='Time (s)',     # or your real x-axis meaning
+        yaxis_title='Amplitude (a.u.)'  # update to real units if you have them
+    )
+
     fig_time.add_trace(go.Scatter(x=time, y=pd1, name="Raw Pd1", line=dict(dash='dot')))
     fig_time.add_trace(go.Scatter(x=time, y=filtered_pd1, name="Filtered Pd1"))
     fig_time.add_trace(go.Scatter(x=time, y=pd2, name="Raw Pd2", line=dict(dash='dot')))
@@ -89,6 +95,12 @@ if uploaded_files:
     # === Pd1 vs Pd2 Scatter ===
     st.subheader("🧪 Pd1 vs Pd2")
     fig_scatter = go.Figure()
+    fig_scatter.update_layout(
+        title='Pd1 vs Pd2',
+        xaxis_title='Pd1 (a.u.)',
+        yaxis_title='Pd2 (a.u.)'
+    )
+
     fig_scatter.add_trace(go.Scatter(
         x=pd1, y=pd2, mode='markers', name="Raw Pd1 vs Pd2",
         marker=dict(color=temp, colorscale='Viridis'), opacity=0.6
@@ -100,6 +112,12 @@ if uploaded_files:
     f1, fft1 = compute_fft(filtered_pd1, fs)
     f2, fft2 = compute_fft(filtered_pd2, fs)
     fig_fft = go.Figure()
+    fig_fft.update_layout(
+        title='FFT of Filtered Signals',
+        xaxis_title='Frequency (Hz)',
+        yaxis_title='Amplitude'
+    )
+
     fig_fft.add_trace(go.Scatter(x=f1, y=fft1, name="FFT Pd1"))
     fig_fft.add_trace(go.Scatter(x=f2, y=fft2, name="FFT Pd2"))
     fig_fft.update_layout(xaxis_title="Frequency (Hz)", yaxis_title="Amplitude")
