@@ -6,7 +6,7 @@ from numpy.fft import rfft, rfftfreq
 from scipy.signal import butter, filtfilt
 import plotly.graph_objects as go
 from scipy.ndimage import gaussian_filter1d
-
+import json
 st.set_page_config(layout="wide")
 st.title("🧪 Signal Filter Dashboard (Interpolated Pd1 / Pd2)")
 
@@ -32,9 +32,14 @@ if uploaded_files:
     if 'metadata' in df.columns:
         st.subheader("📋 Metadata")
         # metadata = df[['metadata']]
-        st.dataframe(df[['metadata']].dropna().drop_duplicates().reset_index(drop=True))
+        # st.dataframe(df[['metadata']].dropna().drop_duplicates().reset_index(drop=True))
+        
+        metadata = df[['metadata']].dropna().drop_duplicates().reset_index(drop=True)
+        st.dataframe(pd.DataFrame(json.loads(df['metadata'][0])))
         # st.dataframe(df['metadata'][0])
         # st.table(pd.DataFrame([df['metadata'][0]]))
+        
+        
     else:
         st.info("ℹ️ No 'metadata' column found in the file.")
 
