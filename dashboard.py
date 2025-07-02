@@ -14,7 +14,7 @@ def merge_uploaded_csvs(uploaded_files):
     dfs = []
     for file in uploaded_files:
         try:
-            df = pd.read_csv(file, delimiter=';')
+            df = pd.read_csv(file, delimiter=',')
             dfs.append(df)
         except Exception as e:
             st.error(f"❌ Failed to read {file.name}: {e}")
