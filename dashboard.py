@@ -31,20 +31,13 @@ if uploaded_files:
     # === Display Metadata Column ===
     if 'metadata' in df.columns:
         st.subheader("📋 Metadata")
-        # metadata = df[['metadata']]
         # st.dataframe(df[['metadata']].dropna().drop_duplicates().reset_index(drop=True))
-        
-        metadata = df[['metadata']].dropna().drop_duplicates().reset_index(drop=True)
-        st.dataframe(json.loads(df['metadata'][0]))
-        # st.dataframe(df['metadata'][0])
-        # st.table(pd.DataFrame([df['metadata'][0]]))
-        
+        metadata = json.loads(df['metadata'][0]) # metadata in dictionary format
+        st.dataframe(metadata)
         
     else:
         st.info("ℹ️ No 'metadata' column found in the file.")
 
-
-    # === Time Parsing ===
     # === Time Parsing ===
     if df['timeStamp'].astype(str).str.contains(",").any():
         df['timeStamp'] = df["timeStamp"].astype(str).str.replace(",", ".")
