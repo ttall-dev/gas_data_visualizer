@@ -16,7 +16,7 @@ import matplotlib.pyplot as plt
 # === Custom Filters ===
 def bandpass_filter(signal, fs, lowcut=0.8, highcut=16, order=4):
     """
-    Applies a bandpass filter to the given signal.
+    Applies a butterworth bandpass filter to the given signal.
     
     Parameters:
     - signal (np.ndarray): The signal to filter.
@@ -37,7 +37,7 @@ def bandpass_filter(signal, fs, lowcut=0.8, highcut=16, order=4):
     return filtfilt(b, a, signal)
 
 def bandpass_filter_2(signal, fs, highWindow=30):
-    
+    # moving average
     # fs isnt actually used in this function, it is only present to follow the same formatting as the other bandpass filters
     signal = np.copy(signal)
     signal -= np.mean(signal)
@@ -46,6 +46,7 @@ def bandpass_filter_2(signal, fs, highWindow=30):
     return signal
 
 def bandpass_filter_3(signal, fs, highCut=16):
+    # moving average with automatic frequency cutoff choice
     order = floor(fs / highCut)
     signal = np.copy(signal)
     signal -= np.mean(signal)
@@ -53,7 +54,9 @@ def bandpass_filter_3(signal, fs, highCut=16):
         signal[i:i+order] -= np.mean(signal[i:i+order])
     return signal
 
-def bandpass_filter_4(signal, fs, highCut=16):
+def bandpass_filter_4_legacy(signal, fs, highCut=16):
+    # weighted moving average
+    # before cosh adjustement 
     order = floor(fs / highCut)
     signal = np.copy(signal)
     delta = np.floor(order / 2).astype(int)
@@ -64,7 +67,15 @@ def bandpass_filter_4(signal, fs, highCut=16):
         result[i] = np.mean(signal[i:i+2*delta])
     return result
 
+def bandpass_filter_4(signal, fs, K = 2):
+    # weighted moving average
+    # TODO: correct the effect of the offset due to the 'same' convolution (negligeable if signal is long enough)
+    signal -= np.mean(signal)
+    avg_filter = np.array([2-np.cosh(k/K) for k in range(-K,K+1)])
+    return fftconvolve(signal, avg_filter, mode='same')
+
 def bandpass_filter_5(signal, fs, highCut=16):
+    # hamming window filter
     order = floor(fs / highCut)
     signal = np.copy(signal)
     signal -= np.mean(signal)

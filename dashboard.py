@@ -60,7 +60,7 @@ if uploaded_files:
     start, end = st.slider("Select sample indices", 0, len(df)-1, (0, len(df)-1), step=1)
     # a,b = st.slider("Select sample indices", min_value=0, max_value=100, value=0)
     # print(a,b)
-    print(timeSelector.iloc[-1])
+    # print(timeSelector.iloc[-1])
     # a, b = st.slider("Select sample indices", min_value=0, max_value=timeSelector[-1], value=(timeSelector[0], timeSelector[-1]), step=timeSelector[-1]/len(df))
     
     float_values = np.arange(0.1, 5.5, 0.1)
@@ -107,7 +107,7 @@ if uploaded_files:
     filter_types = {
         "butterworth": bandpass_filter,
         "moving average": bandpass_filter_3,
-        # "weighted moving average": bandpass_filter_4,
+        "weighted moving average": bandpass_filter_4,
         "hamming window": bandpass_filter_5
     }
     filter_type = st.selectbox("Select filter", list(filter_types.keys()))
