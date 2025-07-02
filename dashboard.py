@@ -60,7 +60,7 @@ if uploaded_files:
     start, end = st.slider("Select sample indices", 0, len(df)-1, (0, len(df)-1), step=1)
     # a,b = st.slider("Select sample indices", min_value=0, max_value=100, value=0)
     # print(a,b)
-    print(timeSelector)
+    print(timeSelector.iloc[-1])
     # a, b = st.slider("Select sample indices", min_value=0, max_value=timeSelector[-1], value=(timeSelector[0], timeSelector[-1]), step=timeSelector[-1]/len(df))
     
     float_values = np.arange(0.1, 5.5, 0.1)
