@@ -55,10 +55,10 @@ if uploaded_files:
     start, end = st.slider("Select sample indices", 0, len(df)-1, (0, len(df)-1), step=1)
     # a,b = st.slider("Select sample indices", min_value=0, max_value=100, value=0)
     # print(a,b)
-    # a, b = st.slider("Select sample indices", timeSelector[0], timeSelector[-1], (timeSelector[0], timeSelector[-1]), step=1)
+    a, b = st.slider("Select sample indices", min_value=0, max_value=timeSelector[-1], value=(timeSelector[0], timeSelector[-1]), step=timeSelector[-1]/len(df))
     
     float_values = np.arange(0.1, 5.5, 0.1)
-    float_start, float_end = st.slider("Select float range:", min_value=np.min(float_values), max_value=np.max(float_values), value=(0.1, 5.0), step=0.1)
+    # float_start, float_end = st.slider("Select float range:", min_value=np.min(float_values), max_value=np.max(float_values), value=(0.1, 5.0), step=0.1)
     relative_timetime = df['timeStamp'].iloc[start:end]
     pd1 = array_data['intpl_rawPd1'][start:end]
     pd2 = array_data['intpl_rawPd2'][start:end]
