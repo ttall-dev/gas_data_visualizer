@@ -52,8 +52,9 @@ if uploaded_files:
 
     st.write("### 🔧 Select Signal Range")
     start, end = st.slider("Select sample indices", 0, len(df)-1, (0, len(df)-1), step=1)
-    a,b = st.slider("Select sample indices", min_value=0, max_value=100, value=0)
-    print(a,b)
+    # a,b = st.slider("Select sample indices", min_value=0, max_value=100, value=0)
+    # print(a,b)
+    start, end = st.slider("Select sample indices", 5, 25, (10, 13), step=1)
     relative_timetime = df['timeStamp'].iloc[start:end]
     pd1 = array_data['intpl_rawPd1'][start:end]
     pd2 = array_data['intpl_rawPd2'][start:end]
