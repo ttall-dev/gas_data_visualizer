@@ -33,7 +33,8 @@ if uploaded_files:
         st.subheader("📋 Metadata")
         metadata = df[['metadata']]
         # st.dataframe(df[['metadata']].dropna().drop_duplicates().reset_index(drop=True))
-        st.dataframe(df['metadata'][0])
+        # st.dataframe(df['metadata'][0])
+        st.write(pd.DataFrame(df['metadata'][0]))
     else:
         st.info("ℹ️ No 'metadata' column found in the file.")
 
