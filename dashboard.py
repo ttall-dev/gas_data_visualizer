@@ -55,7 +55,7 @@ if uploaded_files:
 
     st.write("### 🔧 Select Signal Range")
     timeSelector = array_data["timeStamp"] - array_data["timeStamp"][0]
-    st.write(timeSelector[-1])
+    st.write(type(timeSelector))
     
     start, end = st.slider("Select sample indices", 0, len(df)-1, (0, len(df)-1), step=1)
     # a,b = st.slider("Select sample indices", min_value=0, max_value=100, value=0)
