@@ -114,10 +114,10 @@ if uploaded_files:
     fig_time = go.Figure()
     fig_time.update_layout(
         title='Time Domain Plot',
-        xaxis_title='Time (s)',     # or your real x-axis meaning
+        xaxis_title='t (s)',     # or your real x-axis meaning
         yaxis_title='Amplitude (a.u.)'  # update to real units if you have them
     )
-    relative_time = time - time[0]
+    relative_time = time-array_data["timeStamp"][0]
     fig_time.add_trace(go.Scatter(x=relative_time, y=pd1, name="Raw Pd1", line=dict(dash='dot')))
     fig_time.add_trace(go.Scatter(x=relative_time, y=filtered_pd1, name="Filtered Pd1"))
     fig_time.add_trace(go.Scatter(x=relative_time, y=pd2, name="Raw Pd2", line=dict(dash='dot')))
