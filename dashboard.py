@@ -52,10 +52,13 @@ if uploaded_files:
 
     st.write("### 🔧 Select Signal Range")
     timeSelector = array_data["timeStamp"] - array_data["timeStamp"][0]
+    
+    
     start, end = st.slider("Select sample indices", 0, len(df)-1, (0, len(df)-1), step=1)
     # a,b = st.slider("Select sample indices", min_value=0, max_value=100, value=0)
     # print(a,b)
-    a, b = st.slider("Select sample indices", min_value=0, max_value=timeSelector[-1], value=(timeSelector[0], timeSelector[-1]), step=timeSelector[-1]/len(df))
+    print(timeSelector)
+    # a, b = st.slider("Select sample indices", min_value=0, max_value=timeSelector[-1], value=(timeSelector[0], timeSelector[-1]), step=timeSelector[-1]/len(df))
     
     float_values = np.arange(0.1, 5.5, 0.1)
     # float_start, float_end = st.slider("Select float range:", min_value=np.min(float_values), max_value=np.max(float_values), value=(0.1, 5.0), step=0.1)
