@@ -34,7 +34,7 @@ if uploaded_files:
         # st.dataframe(df[['metadata']].dropna().drop_duplicates().reset_index(drop=True))
         metadata = json.loads(df['metadata'][0]) # metadata in dictionary format
         metadata["date"] = pd.to_datetime(df['date'][0])
-        metadata.drop("sw", axis = 1)
+        # metadata.drop("sw", axis = 1)
         st.dataframe(metadata)
         
     else:
