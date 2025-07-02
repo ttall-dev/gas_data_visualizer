@@ -82,7 +82,6 @@ def compute_sampling_frequency(time_array):
     # fs *= 1000 # ms to s conversion
     return fs
 
-
 def plot(x,y):
     plt.scatter(x,y,label = "plot")
     plt.xlabel("x")
@@ -90,18 +89,15 @@ def plot(x,y):
     return
 
 # def data_parser(csv_file):
-    
-    
 #     return
 # %%
+
 # csv_file =  r"C:\Users\Admin\Documents\1 - School\4A\Internship\VTEC\work\Code\Vizualisation dashboard\gas_data_visualizer\data\HVAMMONIA03-2025-06-13.csv"
 # df = pd.read_csv(csv_file,delimiter = ",")
 
 # t = df['Unix Timestamp'].to_numpy()
 
 # def data_parser(csvname):
-    
-    
 #     return array_data
 
 

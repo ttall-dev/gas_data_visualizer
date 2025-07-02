@@ -53,7 +53,7 @@ if uploaded_files:
     st.write("### 🔧 Select Signal Range")
     start, end = st.slider("Select sample indices", 0, len(df)-1, (0, len(df)-1), step=1)
 
-    time = df['timeStamp'].iloc[start:end]
+    relative_timetime = df['timeStamp'].iloc[start:end]
     pd1 = array_data['intpl_rawPd1'][start:end]
     pd2 = array_data['intpl_rawPd2'][start:end]
     temp = array_data['intpl_ntc_1530'][start:end]
@@ -117,14 +117,14 @@ if uploaded_files:
         xaxis_title='Time (s)',     # or your real x-axis meaning
         yaxis_title='Amplitude (a.u.)'  # update to real units if you have them
     )
-
-    fig_time.add_trace(go.Scatter(x=time, y=pd1, name="Raw Pd1", line=dict(dash='dot')))
-    fig_time.add_trace(go.Scatter(x=time, y=filtered_pd1, name="Filtered Pd1"))
-    fig_time.add_trace(go.Scatter(x=time, y=pd2, name="Raw Pd2", line=dict(dash='dot')))
-    fig_time.add_trace(go.Scatter(x=time, y=filtered_pd2, name="Filtered Pd2"))
-    fig_time.update_layout(title='Time domain Plot', xaxis_title='Time', yaxis_title='Amplitude')
+    relative_time = time - time[0]
+    fig_time.add_trace(go.Scatter(x=relative_time, y=pd1, name="Raw Pd1", line=dict(dash='dot')))
+    fig_time.add_trace(go.Scatter(x=relative_time, y=filtered_pd1, name="Filtered Pd1"))
+    fig_time.add_trace(go.Scatter(x=relative_time, y=pd2, name="Raw Pd2", line=dict(dash='dot')))
+    fig_time.add_trace(go.Scatter(x=relative_time, y=filtered_pd2, name="Filtered Pd2"))
+    fig_time.update_layout(title='Time domain Plot', xaxis_title='t (s)', yaxis_title='Amplitude')
     st.plotly_chart(fig_time, use_container_width=True)
-
+    
     st.subheader("📈 Pd1 / Pd2 vs Temperature by Ramp Type")
 
 # Plot ramp-up segments
