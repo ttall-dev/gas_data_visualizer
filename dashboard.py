@@ -26,6 +26,13 @@ uploaded_files = st.file_uploader("📁 Upload CSV Files", type="csv", accept_mu
 if uploaded_files:
     df = merge_uploaded_csvs(uploaded_files)
     st.success("✅ Data loaded")
+    # === Display Metadata Column ===
+    if 'metadata' in df.columns:
+        st.subheader("📋 Metadata")
+        st.dataframe(df[['metadata']].dropna().drop_duplicates().reset_index(drop=True))
+    else:
+        st.info("ℹ️ No 'metadata' column found in the file.")
+
 
     # === Time Parsing ===
     # === Time Parsing ===
