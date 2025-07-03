@@ -145,7 +145,7 @@ if uploaded_files:
     fig_ramp_up = go.Figure()
     for i, (start, end) in enumerate(rising_segments):
         if i == start:    
-            visibility = True
+            visibility = ''
         else:
             visibility = 'legendonly'
             
@@ -164,7 +164,7 @@ if uploaded_files:
     fig_ramp_down = go.Figure()
     for i, (start, end) in enumerate(falling_segments):
         if i == start:    
-            visibility = True
+            visibility = ''
         else:
             visibility = 'legendonly'
             
