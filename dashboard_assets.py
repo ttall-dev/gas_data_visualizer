@@ -92,7 +92,11 @@ def compute_sampling_frequency(time_array):
     fs = len(time_array) /(time_array[-1]-time_array[0])
     # fs *= 1000 # ms to s conversion
     return fs
+# %%
 
+def timeToIndex(timeList, maxTime, maxIndex):
+    return [floor(x*maxIndex/maxTime) for x in timeList]
+    
 def plot(x,y):
     plt.scatter(x,y,label = "plot")
     plt.xlabel("x")
