@@ -66,9 +66,10 @@ if uploaded_files:
     timeSelector = np.array(df['timeStamp'].iloc[:])
     # timeSelector -= timeSelector.iloc[0]
     timeStart , timeEnd = timeSelector[0],timeSelector[-1]
+    timeSelector -= timeStart
     st.write((timeStart,timeEnd))
     float_values = np.arange(0.1, 5.5, 0.1)
-    # float_start, float_end = st.slider("Select time range (s):", min_value=timeSelector[0], max_value=timeSelector[-1], value=(timeSelector[0], timeSelector[-1]), step=0.1)
+    float_start, float_end = st.slider("Select time range (s):", min_value=timeSelector[0], max_value=timeSelector[-1], value=(timeSelector[0], timeSelector[-1]), step=0.1)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~
     relative_timetime = df['timeStamp'].iloc[start:end]
     pd1 = array_data['intpl_rawPd1'][start:end]
