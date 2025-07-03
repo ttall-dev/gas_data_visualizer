@@ -64,7 +64,7 @@ if uploaded_files:
     # print(timeSelector.iloc[-1])
     test = df['timeStamp'].iloc[:]
     st.write(test[0])
-    st.write(test[-1])
+    # st.write(test[-1])
     # a, b = st.slider("Select sample indices", min_value=0, max_value=timeSelector[-1], value=(timeSelector[0], timeSelector[-1]), step=timeSelector[-1]/len(df))
     timeSelector = np.array(df['timeStamp'].iloc[:])
     timeSelector -= timeSelector[0]
