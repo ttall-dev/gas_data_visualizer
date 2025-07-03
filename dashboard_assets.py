@@ -83,7 +83,7 @@ def bandpass_filter_5(signal, fs, highCut=16):
     return fftconvolve(signal, avg_filter, mode='same')
 
 def compute_fft(signal, fs):
-    N = len(signal)
+    N = 2048
     fft_vals = rfft(signal)
     freqs = rfftfreq(N, d=1/fs)
     return freqs, np.abs(fft_vals)
