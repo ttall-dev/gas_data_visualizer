@@ -84,7 +84,7 @@ def bandpass_filter_5(signal, fs, highCut=16):
 
 def compute_fft(signal, fs):
     N = 2048
-    fft_vals = rfft(signal)
+    fft_vals = rfft(signal,n=N)
     freqs = rfftfreq(N, d=1/fs)
     return freqs, np.abs(fft_vals)
 
