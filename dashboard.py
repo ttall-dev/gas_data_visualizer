@@ -56,16 +56,8 @@ if uploaded_files:
     st.write("### 🔧 Select Signal Range")
     
     
-    # ~~~ tests for time slider
-    # timeSelector = array_data["timeStamp"] - array_data["timeStamp"][0]
-    # st.write(type(timeSelector))
-    # a,b = st.slider("Select sample indices", min_value=0, max_value=100, value=0)
-    # print(a,b)
-    # print(timeSelector.iloc[-1])
+    # ~~~ Time Slider: time to index conversion
     test = df['timeStamp'].iloc[:]
-    st.write(test[0])
-    st.write(test.iloc[-1])
-    # a, b = st.slider("Select sample indices", min_value=0, max_value=timeSelector[-1], value=(timeSelector[0], timeSelector[-1]), step=timeSelector[-1]/len(df))
     timeSelector = np.array(df['timeStamp'].iloc[:])
     timeSelector -= timeSelector[0]
     time_float_start, time_float_end = st.slider("Select time range (s):", min_value=timeSelector[0], max_value=timeSelector[-1], value=(timeSelector[0], timeSelector[-1]), step=0.1)
