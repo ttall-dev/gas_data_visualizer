@@ -144,8 +144,14 @@ if uploaded_files:
 # Plot ramp-up segments
     fig_ramp_up = go.Figure()
     for i, (start, end) in enumerate(rising_segments):
-        fig_ramp_up.add_trace(go.Scatter(x=temp[start:end], y=pd1[start:end], mode='lines', name=f'Pd1 Ramp↑ {i+1}'))
-        fig_ramp_up.add_trace(go.Scatter(x=temp[start:end], y=pd2[start:end], mode='lines', name=f'Pd2 Ramp↑ {i+1}'))
+        if i == start:    
+            visibility = True
+        else:
+            visibility = 'legendonly'
+            
+        fig_ramp_up.add_trace(go.Scatter(x=temp[start:end], y=pd1[start:end], mode='lines', name=f'Pd1 Ramp↑ {i+1}'), visibile = visibility)
+        fig_ramp_up.add_trace(go.Scatter(x=temp[start:end], y=pd2[start:end], mode='lines', name=f'Pd2 Ramp↑ {i+1}'), visibile = visibility)
+        
 
     fig_ramp_up.update_layout(
         title='Ramp Up: Pd1 & Pd2 vs Temperature',
@@ -157,8 +163,13 @@ if uploaded_files:
 # Plot ramp-down segments
     fig_ramp_down = go.Figure()
     for i, (start, end) in enumerate(falling_segments):
-        fig_ramp_down.add_trace(go.Scatter(x=temp[start:end], y=pd1[start:end], mode='lines', name=f'Pd1 Ramp↓ {i+1}'))
-        fig_ramp_down.add_trace(go.Scatter(x=temp[start:end], y=pd2[start:end], mode='lines', name=f'Pd2 Ramp↓ {i+1}'))
+        if i == start:    
+            visibility = True
+        else:
+            visibility = 'legendonly'
+            
+        fig_ramp_down.add_trace(go.Scatter(x=temp[start:end], y=pd1[start:end], mode='lines', name=f'Pd1 Ramp↓ {i+1}'), visibile = visibility)
+        fig_ramp_down.add_trace(go.Scatter(x=temp[start:end], y=pd2[start:end], mode='lines', name=f'Pd2 Ramp↓ {i+1}'), visibile = visibility)
 
     fig_ramp_down.update_layout(
         title='Ramp Down: Pd1 & Pd2 vs Temperature',
