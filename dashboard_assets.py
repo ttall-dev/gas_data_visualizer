@@ -71,7 +71,7 @@ def bandpass_filter_4(signal, fs, K = 2):
     # weighted moving average
     # TODO: correct the effect of the offset due to the 'same' convolution (negligeable if signal is long enough)
     signal -= np.mean(signal)
-    avg_filter = np.array([2-np.cosh(k/K) for k in range(-K,K+1)])
+    avg_filter = np.array([2-np.cosh(k/K) for k in range(-K,K+1)])/(2*K+1)
     return fftconvolve(signal, avg_filter, mode='same')
 
 def bandpass_filter_5(signal, fs, highCut=16):
@@ -79,7 +79,7 @@ def bandpass_filter_5(signal, fs, highCut=16):
     order = floor(fs / highCut)
     signal = np.copy(signal)
     signal -= np.mean(signal)
-    avg_filter = np.hamming(order)
+    avg_filter = np.hamming(order)/order
     return fftconvolve(signal, avg_filter, mode='same')
 
 def compute_fft(signal, fs):
