@@ -111,7 +111,7 @@ if uploaded_files:
         "hamming window": bandpass_filter_5
     }
     filter_type = st.selectbox("Select filter", list(filter_types.keys()))
-    st.write('<a href="https://drive.google.com/file/d/1ZTJTPXxQjEKWI4lrVmcfRNc9umiAzzgZ/view?usp=sharing" target="_blank">More documentation about the filtering methods</a>', unsafe_allow_html=True)
+    st.write('<a href="https://drive.google.com/file/d/1xt7hvpWJDT0oXvf27ENDNzpiOQdN9LtC/view?usp=sharing" target="_blank">More documentation about the filtering methods</a>', unsafe_allow_html=True)
 
     # st.button("More documentation about the filtering methods", on_click=lambda: open("https://www.google.com", "_blank"))
     try:
