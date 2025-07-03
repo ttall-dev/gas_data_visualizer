@@ -174,14 +174,16 @@ if uploaded_files:
     fig_scatter.update_layout(
         title='Pd1 vs Pd2',
         xaxis_title='Pd1 (a.u.)',
-        yaxis_title='Pd2 (a.u.)'
+        yaxis_title='Pd2 (a.u.)',
+        coloraxis_colorbar_title="Temperature"
     )
-
+    
     fig_scatter.add_trace(go.Scatter(
         x=pd1, y=pd2, mode='markers', name="Raw Pd1 vs Pd2",
-        marker=dict(color=temp, colorscale='Viridis'), opacity=0.6
+        marker=dict(color=temp, colorscale='Viridis', colorbar=dict(title="Temperature"))
     ))
     st.plotly_chart(fig_scatter, use_container_width=True)
+    
 
     # === FFT Plot ===
     st.subheader("📊 FFT")
