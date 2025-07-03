@@ -63,10 +63,10 @@ if uploaded_files:
     # print(a,b)
     # print(timeSelector.iloc[-1])
     # a, b = st.slider("Select sample indices", min_value=0, max_value=timeSelector[-1], value=(timeSelector[0], timeSelector[-1]), step=timeSelector[-1]/len(df))
-    timeSelector = df['timeStamp'].iloc[:]
-    timeSelector -= timeSelector.iloc[0]
-    timeStart , timeEnd = timeSelector.iloc[-1]
-    st.write((timeStart,timeEnd))
+    timeSelector = np.array(df['timeStamp'].iloc[:])
+    # timeSelector -= timeSelector.iloc[0]
+    # timeStart , timeEnd = timeSelector.iloc[-1]
+    # st.write((timeStart,timeEnd))
     float_values = np.arange(0.1, 5.5, 0.1)
     # float_start, float_end = st.slider("Select time range (s):", min_value=timeSelector[0], max_value=timeSelector[-1], value=(timeSelector[0], timeSelector[-1]), step=0.1)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~
