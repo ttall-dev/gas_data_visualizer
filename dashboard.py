@@ -111,7 +111,7 @@ if uploaded_files:
         "hamming window": bandpass_filter_5
     }
     filter_type = st.selectbox("Select filter", list(filter_types.keys()))
-    st.write('<a href="https://github.com/ttall-dev/gas_data_visualizer/blob/main/Filter_Documentation.pdf" target="_blank">More documentation about the filtering methods</a>', unsafe_allow_html=True)
+    st.write('<a href="https://github.com/ttall-dev/gas_data_visualizer/blob/main/documentation/Filter_Documentation.pdf" target="_blank">More documentation about the filtering methods</a>', unsafe_allow_html=True)
 
     # st.button("More documentation about the filtering methods", on_click=lambda: open("https://www.google.com", "_blank"))
     try:
