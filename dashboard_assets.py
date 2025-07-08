@@ -74,6 +74,7 @@ def bandpass_filter_4(signal, fs, K = 2):
     norm_constant = 4 * K - np.sinh(1 / (2 * K) + 1) / np.sinh(1 / (2 * K)) + 2
     signal -= np.mean(signal)
     avg_filter = np.array([2-np.cosh(k/K) for k in range(-K,K+1)])/norm_constant
+    avg_filter = np.maximum(0,avg_filter)
     filtered_signal = fftconvolve(signal, avg_filter, mode='same')
     offset = len(avg_filter)//2
     return filtered_signal[offset::-offset]
