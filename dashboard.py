@@ -111,7 +111,7 @@ if uploaded_files:
         "hamming window": bandpass_filter_5
     }
     filter_type = st.selectbox("Select filter", list(filter_types.keys()))
-    st.write('<a href="https://drive.google.com/file/d/1xt7hvpWJDT0oXvf27ENDNzpiOQdN9LtC/view?usp=sharing" target="_blank">More documentation about the filtering methods</a>', unsafe_allow_html=True)
+    st.write('<a href="https://github.com/ttall-dev/gas_data_visualizer/blob/main/Filter_Documentation.pdf" target="_blank">More documentation about the filtering methods</a>', unsafe_allow_html=True)
 
     # st.button("More documentation about the filtering methods", on_click=lambda: open("https://www.google.com", "_blank"))
     try:
@@ -207,7 +207,7 @@ if uploaded_files:
         yaxis_title='Amplitude'
     )
 
-    fig_fft.add_trace(go.Scatter(x=f1, y=fft1, name="FFT Pd1"))
-    fig_fft.add_trace(go.Scatter(x=f2, y=fft2, name="FFT Pd2"))
+    fig_fft.add_trace(go.Scatter(x=f1, y=np.abs(fft1), name="FFT Pd1"))
+    fig_fft.add_trace(go.Scatter(x=f2, y=np.abs(fft2), name="FFT Pd2"))
     fig_fft.update_layout(xaxis_title="Frequency (Hz)", yaxis_title="Amplitude")
     st.plotly_chart(fig_fft, use_container_width=True)

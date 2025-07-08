@@ -74,10 +74,10 @@ def bandpass_filter_4(signal, fs, K = 2):
     norm_constant = 4 * K - np.sinh(1 / (2 * K) + 1) / np.sinh(1 / (2 * K)) + 2
     signal -= np.mean(signal)
     avg_filter = np.array([2-np.cosh(k/K) for k in range(-K,K+1)])/norm_constant
-    avg_filter = np.maximum(0,avg_filter)
+    avg_filter = np.maximum(0,avg_filter) # removing eventual negative values
     filtered_signal = fftconvolve(signal, avg_filter, mode='same')
     offset = len(avg_filter)//2
-    return filtered_signal[offset::-offset]
+    return filtered_signal[offset:-offset]
 
 def bandpass_filter_5(signal, fs, highCut=16):
     # hamming window filter
@@ -91,13 +91,13 @@ def bandpass_filter_5(signal, fs, highCut=16):
     avg_filter = np.hamming(order)/norm_constant
     filtered_signal = fftconvolve(signal, avg_filter)
     offset = len(avg_filter)//2
-    return filtered_signal[offset::-offset]
+    return filtered_signal[offset:-offset]
 
 def compute_fft(signal, fs):
     N = 2048
     fft_vals = rfft(signal,n=N)
     freqs = rfftfreq(N, d=1/fs)
-    return freqs, np.abs(fft_vals)
+    return freqs, fft_vals
 
 def compute_sampling_frequency(time_array):
     fs = len(time_array) /(time_array[-1]-time_array[0])
