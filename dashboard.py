@@ -39,6 +39,19 @@ if uploaded_files:
         
     else:
         st.info("ℹ️ No 'metadata' column found in the file.")
+    # === Display Device Config Column ===
+    if 'device_config' in df.columns:
+        st.subheader("🛠️ Device Configuration")
+        try:
+            # Parse the first row as JSON (ignore if it's just "0")
+            raw_config = df['device_config'].iloc[0]
+            if isinstance(raw_config, str) and raw_config.strip() != '0':
+                device_config = json.loads(raw_config.replace("'", "\""))
+                st.json(device_config)
+            else:
+                st.info("ℹ️ No valid JSON found in 'device_config'.")
+        except Exception as e:
+            st.warning(f"⚠️ Could not parse 'device_config': {e}")
 
     # === Time Parsing ===
     if df['timeStamp'].astype(str).str.contains(",").any():
