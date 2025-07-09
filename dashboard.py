@@ -7,6 +7,7 @@ from scipy.signal import butter, filtfilt
 import plotly.graph_objects as go
 from scipy.ndimage import gaussian_filter1d
 import json
+import ast
 st.set_page_config(layout="wide")
 st.title("🧪 Signal Filter Dashboard (Interpolated Pd1 / Pd2)")
 
@@ -39,17 +40,32 @@ if uploaded_files:
         
     else:
         st.info("ℹ️ No 'metadata' column found in the file.")
-    # === Display Device Config Column ===
+   
+
     # === Display Device Config ===
     if 'device_config' in df.columns:
         st.subheader("🧾 Device Configuration")
-        
-            device_config = json.loads(df['device_config'][0])  # parse string as JSON
-            device_config["date"] = pd.to_datetime(df['date'][0])  # add timestamp for reference
-            st.dataframe(device_config)
+        try:
+        # Parse the first row (safely handles Python-style dict)
+            device_config = ast.literal_eval(df['device_config'].iloc[0])
+            device_config["date"] = pd.to_datetime(df['date'].iloc[0])
+
+        # Display top-level keys if flat
+            st.markdown("### 🧩 Top-Level Config")
+            st.dataframe(pd.DataFrame.from_dict({k: v for k, v in device_config.items() if not isinstance(v, dict)}, orient='index', columns=["Value"]))
+
+        # Display nested 'config_data' if present
+            if "config_data" in device_config:
+                st.markdown("### ⚙️ config_data")
+                st.dataframe(pd.DataFrame.from_dict(device_config["config_data"], orient='index', columns=["Value"]))
+
+        # Display nested 'changes' if present
+            if "changes" in device_config:
+                st.markdown("### 🧪 changes")
+                st.dataframe(pd.DataFrame.from_dict(device_config["changes"], orient='index', columns=["Value"]))
+
         except Exception as e:
             st.warning(f"⚠️ Could not parse 'device_config': {e}")
-
 
     # === Time Parsing ===
     if df['timeStamp'].astype(str).str.contains(",").any():
