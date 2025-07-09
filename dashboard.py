@@ -59,10 +59,7 @@ if uploaded_files:
                 st.markdown("### ⚙️ config_data")
                 st.dataframe(pd.DataFrame.from_dict(device_config["config_data"], orient='index', columns=["Value"]))
 
-        # Display nested 'changes' if present
-            if "changes" in device_config:
-                st.markdown("### 🧪 changes")
-                st.dataframe(pd.DataFrame.from_dict(device_config["changes"], orient='index', columns=["Value"]))
+        
 
         except Exception as e:
             st.warning(f"⚠️ Could not parse 'device_config': {e}")
