@@ -164,7 +164,7 @@ if uploaded_files:
     st.plotly_chart(fig_time, use_container_width=True)
     
     st.subheader("📈 Pd1 / Pd2 vs Temperature by Ramp Type")
-
+    
 # Plot ramp-up segments
     fig_ramp_up = go.Figure()
     for i, (start, end) in enumerate(rising_segments):
@@ -182,7 +182,7 @@ if uploaded_files:
         xaxis_title='Temperature (°C)',
         yaxis_title='Amplitude (a.u.)'
     )
-    st.plotly_chart(fig_ramp_up, use_container_width=True)
+    
 
 # Plot ramp-down segments
     fig_ramp_down = go.Figure()
@@ -200,7 +200,16 @@ if uploaded_files:
         xaxis_title='Temperature (°C)',
         yaxis_title='Amplitude (a.u.)'
     )
-    st.plotly_chart(fig_ramp_down, use_container_width=True)
+    # Side-by-side display
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.markdown("#### 🔼 Ramp Up")
+        st.plotly_chart(fig_ramp_up, use_container_width=True)
+
+    with col2:
+        st.markdown("#### 🔽 Ramp Down")
+        st.plotly_chart(fig_ramp_down, use_container_width=True)
 
 
     # === Pd1 vs Pd2 Scatter ===
