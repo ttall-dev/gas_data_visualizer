@@ -43,10 +43,10 @@ if uploaded_files:
     # === Display Device Config ===
     if 'device_config' in df.columns:
         st.subheader("🧾 Device Configuration")
-        try:
-            device_config = json.loads(df['device_config'][0].replace("'", "\""))  # parse string as JSON
+        
+            device_config = json.loads(df['device_config'][0])  # parse string as JSON
             device_config["date"] = pd.to_datetime(df['date'][0])  # add timestamp for reference
-            st.dataframe(pd.DataFrame.from_dict(device_config, orient='index', columns=['Value']))
+            st.dataframe(device_config)
         except Exception as e:
             st.warning(f"⚠️ Could not parse 'device_config': {e}")
 
