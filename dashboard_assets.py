@@ -99,8 +99,9 @@ def compute_fft(signal, fs):
     freqs = rfftfreq(N, d=1/fs)
     return freqs, fft_vals
 
-def compute_sampling_frequency(time_array,nSamples=1):
+def compute_sampling_frequency(time_array,nSamples=3):
     # computes the sampling frequency of an array over nSamples samples
+    assert(len(time_array)>= nSamples), "Cannot select more samples than available in the array"
     fs = nSamples /(time_array[nSamples]-time_array[0])
     # fs *= 1000 # ms to s conversion
     return fs

@@ -140,8 +140,13 @@ if uploaded_files:
     # st.button("More documentation about the filtering methods", on_click=lambda: open("https://www.google.com", "_blank"))
     try:
         filter_func = filter_types[filter_type]
-        filtered_pd1 = filter_func(pd1, fs=fs)
-        filtered_pd2 = filter_func(pd2, fs=fs)
+        if filter_type == "butterworth":
+            lowCut,highCut = st.slider("Bandpass frequency range (Hz)", min_value=0, max_value=500, value=(0, 500), step=0.1)
+            filtered_pd1 = filter_func(pd1, fs=fs, lowcut=lowCut, highcut=highCut,order=4)
+            filtered_pd2 = filter_func(pd2, fs=fs, lowcut=lowCut, highcut=highCut,order=4)
+        else:
+            filtered_pd1 = filter_func(pd1, fs=fs)
+            filtered_pd2 = filter_func(pd2, fs=fs)
     except Exception as e:
         st.warning(f"⚠️ Filter error: {e}")
         filtered_pd1 = pd1
