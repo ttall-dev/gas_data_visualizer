@@ -7,6 +7,7 @@ from scipy.signal import butter, filtfilt
 import plotly.graph_objects as go
 from scipy.ndimage import gaussian_filter1d
 import json
+import ast
 st.set_page_config(layout="wide")
 st.title("🧪 Signal Filter Dashboard (Interpolated Pd1 / Pd2)")
 
@@ -39,6 +40,29 @@ if uploaded_files:
         
     else:
         st.info("ℹ️ No 'metadata' column found in the file.")
+   
+
+    # === Display Device Config ===
+    if 'device_config' in df.columns:
+        st.subheader("🧾 Device Configuration")
+        try:
+        # Parse the first row (safely handles Python-style dict)
+            device_config = ast.literal_eval(df['device_config'].iloc[0])
+            device_config["date"] = pd.to_datetime(df['date'].iloc[0])
+
+        # Display top-level keys if flat
+            st.markdown("### 🧩 Top-Level Config")
+            st.dataframe(pd.DataFrame.from_dict({k: v for k, v in device_config.items() if not isinstance(v, dict)}, orient='index', columns=["Value"]))
+
+        # Display nested 'config_data' if present
+            if "config_data" in device_config:
+                st.markdown("### ⚙️ config_data")
+                st.dataframe(pd.DataFrame.from_dict(device_config["config_data"], orient='index', columns=["Value"]))
+
+        
+
+        except Exception as e:
+            st.warning(f"⚠️ Could not parse 'device_config': {e}")
 
     # === Time Parsing ===
     if df['timeStamp'].astype(str).str.contains(",").any():
@@ -140,7 +164,7 @@ if uploaded_files:
     st.plotly_chart(fig_time, use_container_width=True)
     
     st.subheader("📈 Pd1 / Pd2 vs Temperature by Ramp Type")
-
+    
 # Plot ramp-up segments
     fig_ramp_up = go.Figure()
     for i, (start, end) in enumerate(rising_segments):
@@ -158,7 +182,7 @@ if uploaded_files:
         xaxis_title='Temperature (°C)',
         yaxis_title='Amplitude (a.u.)'
     )
-    st.plotly_chart(fig_ramp_up, use_container_width=True)
+    
 
 # Plot ramp-down segments
     fig_ramp_down = go.Figure()
@@ -176,7 +200,16 @@ if uploaded_files:
         xaxis_title='Temperature (°C)',
         yaxis_title='Amplitude (a.u.)'
     )
-    st.plotly_chart(fig_ramp_down, use_container_width=True)
+    # Side-by-side display
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.markdown("#### 🔼 Ramp Up")
+        st.plotly_chart(fig_ramp_up, use_container_width=True)
+
+    with col2:
+        st.markdown("#### 🔽 Ramp Down")
+        st.plotly_chart(fig_ramp_down, use_container_width=True)
 
 
     # === Pd1 vs Pd2 Scatter ===
