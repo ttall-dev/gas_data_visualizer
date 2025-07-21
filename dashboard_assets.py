@@ -99,6 +99,8 @@ def compute_fft(signal, fs):
     freqs = rfftfreq(N, d=1/fs)
     return freqs, fft_vals
 
+
+# TODO: Ts does not seem to be consistent for temperature, ask out to know how it is determined and used for FFT
 def compute_sampling_frequency(time_array,nSamples=3):
     # computes the sampling frequency of an array over nSamples samples
     assert(len(time_array)>= nSamples), "Cannot select more samples than available in the array"
@@ -128,4 +130,6 @@ def plot(x,y):
 # def data_parser(csvname):
 #     return array_data
 
+# %%
 
+np.random.randn(1,100)

@@ -190,3 +190,28 @@ for file in uploaded_files:
         print(f"❌ Failed to read {file}: {e}")
         # st.error(f"❌ Failed to read {file.name}: {e}")
 res = pd.concat(dfs, ignore_index=True) if dfs else None
+
+
+# %%
+
+refArray = array_data['ntc_1530']
+offsetArray = np.array([0]+ [x for x in refArray[:-1]])
+diffArray = refArray - offsetArray
+maxIndex = 200
+plt.plot(refArray[:maxIndex],'or',label= "reference")
+plt.plot(offsetArray[:maxIndex],'ob',label= "offset")
+plt.legend()
+plt.yscale('log')
+
+plt.figure()
+
+plt.plot(diffArray[1:500])
+
+plt.legend()
+plt.yscale('log')
+
+
+plt.figure()
+# plt.plot(refArray[:1000])
+
+

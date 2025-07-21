@@ -10,6 +10,8 @@ import json
 import ast
 st.set_page_config(layout="wide")
 st.title("🧪 Signal Filter Dashboard (Interpolated Pd1 / Pd2)")
+# %%
+
 
 # === Merge CSVs ===
 def merge_uploaded_csvs(uploaded_files):
@@ -250,3 +252,18 @@ if uploaded_files:
     fig_fft.add_trace(go.Scatter(x=f2, y=np.abs(fft2), name="FFT Pd2"))
     fig_fft.update_layout(xaxis_title="Frequency (Hz)", yaxis_title="Amplitude")
     st.plotly_chart(fig_fft, use_container_width=True)
+    # === Temperature plot ===
+    plotTemp = st.radio("Plot temperature", ["yes", "no"])
+    if plotTemp == "yes":
+        st.subheader("Temperature")
+        fig_fft = go.Figure()
+        fig_fft.update_layout(
+            title='Temp = f(time)',
+            xaxis_title='time (s)',
+            yaxis_title='temperature (°C)'
+        )
+        fig_fft.add_trace(go.Scatter(x=relative_timetime, y=temp, name="tempearature"))
+        fig_fft.update_layout(xaxis_title="Time (s)", yaxis_title="Temperature (°C)")
+        st.plotly_chart(fig_fft, use_container_width=True)
+    
+    
