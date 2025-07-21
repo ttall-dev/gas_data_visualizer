@@ -262,7 +262,7 @@ if uploaded_files:
             xaxis_title='time (s)',
             yaxis_title='temperature (°C)'
         )
-        fig_fft.add_trace(go.Scatter(x=relative_timetime, y=temp, name="tempearature"))
+        fig_fft.add_trace(go.Scatter(x=relative_timetime-relative_timetime[0], y=temp, name="tempearature"))
         fig_fft.update_layout(xaxis_title="Time (s)", yaxis_title="Temperature (°C)")
         st.plotly_chart(fig_fft, use_container_width=True)
     
