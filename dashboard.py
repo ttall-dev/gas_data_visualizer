@@ -126,7 +126,8 @@ if uploaded_files:
 
     rising_segments = extract_segments(rising_mask, min_segment_length)
     falling_segments = extract_segments(falling_mask, min_segment_length)
-    fs = compute_sampling_frequency(list(array_data['intpl_ntc_1530'])) # vs temperature
+    # fs = compute_sampling_frequency(list(array_data['intpl_ntc_1530'])) # vs temperature
+    fs = compute_temperature_fs(array_data['timeStamp'], array_data['intpl_ntc_1530'])
 
     # === Filter selection ===
     st.write("### 🎛️ Choose a Filter")

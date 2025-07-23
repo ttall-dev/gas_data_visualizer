@@ -16,7 +16,9 @@ from scipy.signal import butter, filtfilt
 from scipy.signal import fftconvolve
 from math import floor
 import matplotlib.pyplot as plt
+# imports 3
 
+import torch
 
 # st.set_page_config(layout="wide")
 # st.title("🧪 Signal Filter Dashboard (Pd1 / Pd2)")
@@ -48,10 +50,11 @@ def merge_uploaded_csvs(uploaded_files):
 # plt.hlines()
 
 # %% # === Upload Files ===
-uploaded_files = ["./data/2025-04-23T00_08_12.000Z.merged.csv"]
+# uploaded_files = ["./data/2025-04-23T00_08_12.000Z.merged.csv"]
+uploaded_files = ["./data/merged-data-HVAMMONIA03-2025-07-10.csv"]
 
 df = merge_uploaded_csvs(uploaded_files)
-df['time'] = df['timeStamp'].astype(str)
+df['time'] = df["timeStamp"].astype(str)
 
 # %% # === Time parsing ===
 """
@@ -194,24 +197,148 @@ res = pd.concat(dfs, ignore_index=True) if dfs else None
 
 # %%
 
-refArray = array_data['ntc_1530']
-offsetArray = np.array([0]+ [x for x in refArray[:-1]])
-diffArray = refArray - offsetArray
-maxIndex = 200
-plt.plot(refArray[:maxIndex],'or',label= "reference")
-plt.plot(offsetArray[:maxIndex],'ob',label= "offset")
+
+
+def diff(refArray):
+    offsetArray = np.array([0] + [x for x in refArray[:-1]])
+    diffArray = refArray - offsetArray
+    return diffArray
+
+# Assuming array_data['ntc_1530'] is defined
+refArray = array_data['ntc_1530'][::15 ]
+
+diffArray = diff(diff(refArray))
+epsilon = 1e-1000
+
+# Create a mask for values where diffArray is less than epsilon
+mask = diffArray < epsilon
+labeled_temp = np.where(mask, refArray, np.nan)
+
+# maxIndex = len(refArray) // 10 * 2
+maxIndex = 750
+offset = 500
+
+plt.figure(1)
+
+# Plot the reference array
+plt.plot(refArray[maxIndex-offset:maxIndex], '-r', label="reference")
+plt.plot(labeled_temp[maxIndex-offset:maxIndex],'-ob',label="interval with criteria")
+
+# Plot the masked values in red
+# plt.plot(np.where(mask[:maxIndex], refArray[:maxIndex], np.nan), 'or', label="masked values (diff < epsilon)")
+
 plt.legend()
-plt.yscale('log')
+# plt.yscale('log')
+plt.title("Reference Array with Masked Values")
+plt.xlabel("Index")
+plt.ylabel("Value")
+plt.show()
 
-plt.figure()
+plt.figure(2)
 
-plt.plot(diffArray[1:500])
+second_derivative_with_criteria = np.where(mask, diffArray, np.nan)
 
+plt.plot(diffArray[1:maxIndex], label="diff array")
+plt.plot(second_derivative_with_criteria[maxIndex-offset:maxIndex], 'or', label="masked diff array")
 plt.legend()
+plt.title("Temperature Deltas")
 plt.yscale('log')
+plt.xlabel("Index")
+plt.ylabel("Difference")
+plt.show()
+
+plt.figure(3)
+plt.plot(mask[:10],'ob')
+# %%
+# Calculate time differences
+t = time - time[0]  # Normalize time
+dt = np.diff(t)
+
+# Calculate temperature differences
+dT = np.diff(temp)
+ddT = np.diff(dT)
+
+# Calculate first and second derivatives
+dv = dT / dt
+ddv = ddT / dt[1:]  # Adjust for the size difference
+
+# Plot first and second derivatives
+plt.figure(figsize=(10, 5))
+plt.plot(t[1:], dv, label='1st Derivative (dv/dt)', marker='o')
+plt.plot(t[2:], ddv, label='2nd Derivative (d²v/dt²)', marker='x')
+plt.title('First and Second Derivatives')
+plt.xlabel('Time (s)')
+plt.ylabel('Derivative Values')
+plt.legend()
+plt.grid()
+plt.tight_layout()
 
 
-plt.figure()
-# plt.plot(refArray[:1000])
+# Plot temperature with masking
+plt.figure(figsize=(10, 5))
+eps0 = 1e-5 
+mask = abs(ddv) < eps0
+temp1 = np.where(mask, temp[2:], np.nan)  # Masking values based on condition
+plt.plot(temp1, label='Masked Temperature', marker='o')
+plt.title('Masked Temperature Values')
+plt.xlabel('Index')
+plt.ylabel('Temperature (°C)')
+plt.legend()
+plt.grid()
+plt.tight_layout()
 
+# Show plots
+plt.show()
+
+# %%
+
+
+# plt.figure()
+# # plt.plot(refArray[:1000])
+
+# y = torch.from_numpy(refArray)
+# y.requires_grad_()
+# z= 2*y
+# y.backward()
+# gradient = y.grad.item()
+# plt.plot(gradient)
+
+# plt.title("gradient")
+# %%
+
+import numpy as np
+import torch
+import matplotlib.pyplot as plt
+
+# Step 1: Create a NumPy array (example data)
+refArray = np.array([[1, 2, 3], [4, 5, 6]], dtype=np.float32)
+
+# Step 2: Convert the NumPy array to a PyTorch tensor
+y = torch.from_numpy(refArray)
+
+# Step 3: Set requires_grad to True
+y.requires_grad_()  # Correct way to set requires_grad
+
+# Step 4: Perform some operations (example: sum)
+output = y.sum()  # You need to perform some operation to compute gradients
+
+# Step 5: Backpropagate to compute gradients
+output.backward()
+
+# Step 6: Get the gradient
+gradient = y.grad
+
+# Display the gradient
+print("Gradient:")
+print(gradient)
+
+# Plot the gradient (if you want to visualize it)
+plt.plot(gradient.numpy())
+plt.title("Gradient")
+plt.xlabel("Index")
+plt.ylabel("Gradient Value")
+plt.grid()
+plt.show()
+
+# %%
 

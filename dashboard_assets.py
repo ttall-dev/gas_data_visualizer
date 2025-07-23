@@ -12,6 +12,7 @@ from scipy.signal import butter, filtfilt
 from scipy.signal import fftconvolve
 from math import floor
 import matplotlib.pyplot as plt
+from scipy.stats import linregress
 
 # === Custom Filters ===
 def bandpass_filter(signal, fs, lowcut=0.8, highcut=16, order=4):
@@ -107,6 +108,58 @@ def compute_sampling_frequency(time_array,nSamples=3):
     fs = nSamples /(time_array[nSamples]-time_array[0])
     # fs *= 1000 # ms to s conversion
     return fs
+
+def detect_slope_portions(slopes,threshold=1):
+    slp = np.abs(slopes)
+    norm_slopes = (slp-np.mean(slp))/np.std(slp)
+    slope_mask = np.abs(norm_slopes) < threshold
+    return slope_mask
+
+def diff2(a):    
+    return np.abs(a[:-1]-a[1:])
+
+def extract_temperature_deltas(time, data, N, plotPortions = False):
+    portion_size = len(data) // N
+    slopes = []
+    intercepts = []
+    r_squared_values = []
+    data_portions = []
+    data = data
+    for i in range(N):
+        start_index = i * portion_size
+        end_index = (i + 1) * portion_size if i < N - 1 else len(data)
+        
+        # Fit linear regression
+        slope, intercept, r_value, p_value, std_err = linregress(time[start_index:end_index], data[start_index:end_index])
+        
+        slopes.append(slope)
+        intercepts.append(intercept)
+        r_squared_values.append(r_value**2)
+        
+        data_portions.append(data[start_index:end_index].to_numpy())
+        if plotPortions:
+            # Plot the fitted line
+            plt.plot(time[start_index:end_index], slope * time[start_index:end_index] + intercept, color='orange', linewidth=2)
+    
+    
+    # data_portions = data_portions
+    slope_mask = detect_slope_portions(slopes, threshold = 1) # we detect which of the portions corrspond to ramp slopes
+    deltas =[diff2(data_portions[i]) for i in range(N) if slope_mask[i]]
+    # we could study portion by portion if need be
+    deltas = np.concatenate(deltas)
+    
+    if plotPortions:
+        plt.scatter(time, data, color='blue', label='Data Points', alpha=0.5)
+        plt.xlabel("t")
+        plt.ylabel("Data")
+        plt.title("Linear Regressions on Time Series Data")
+        plt.grid()
+        # plt.legend()
+    return deltas
+
+def compute_temperature_fs(time,temp,N=12):
+    # TODO: add automatic computing for the appropriate N value
+    return 1/np.mean(extract_temperature_deltas(time, temp, N))
 # %%
 
 def timeToIndex(timeList, maxTime, maxIndex):
