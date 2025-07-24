@@ -145,7 +145,7 @@ if uploaded_files:
         filter_func = filter_types[filter_type]
         if filter_type == "butterworth":
             minCut, maxCut = 0.,50.
-            lowCut,highCut = st.slider("Bandpass frequency range (Hz)", min_value=0.1, max_value=maxCut, value=(minCut,maxCut), step=0.1)
+            lowCut,highCut = st.slider("Bandpass frequency range (Hz)", min_value=minCut, max_value=maxCut, value=(0.1,maxCut), step=0.1)
             filtered_pd1 = filter_func(pd1, fs=fs, lowcut=lowCut, highcut=highCut,order=4)
             filtered_pd2 = filter_func(pd2, fs=fs, lowcut=lowCut, highcut=highCut,order=4)
         else:
