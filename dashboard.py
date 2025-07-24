@@ -128,7 +128,7 @@ if uploaded_files:
     falling_segments = extract_segments(falling_mask, min_segment_length)
     # fs = compute_sampling_frequency(list(array_data['intpl_ntc_1530'])) # vs temperature
     fs = compute_temperature_fs(array_data['timeStamp'], array_data['intpl_ntc_1530'])
-    st.text_area(str(fs))
+    # st.text_area(str(fs))
     # === Filter selection ===
     st.write("### 🎛️ Choose a Filter")
     filter_types = {
@@ -144,7 +144,7 @@ if uploaded_files:
     try:
         filter_func = filter_types[filter_type]
         if filter_type == "butterworth":
-            minCut, maxCut = 0.,25.
+            minCut, maxCut = 0.1,25.
             lowCut,highCut = st.slider("Bandpass frequency range (Hz)", min_value=minCut, max_value=maxCut, value=(minCut,maxCut), step=0.1)
             filtered_pd1 = filter_func(pd1, fs=fs, lowcut=lowCut, highcut=highCut,order=4)
             filtered_pd2 = filter_func(pd2, fs=fs, lowcut=lowCut, highcut=highCut,order=4)
