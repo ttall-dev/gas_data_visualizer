@@ -110,15 +110,20 @@ def compute_sampling_frequency(time_array,nSamples=3):
     return fs
 
 def detect_slope_portions(slopes,threshold=1):
+    # detects which portions are relevant for the computation of temperature fs
+    # we exclude any portion with a slope too different from the majority
     slp = np.abs(slopes)
     norm_slopes = (slp-np.mean(slp))/np.std(slp)
     slope_mask = np.abs(norm_slopes) < threshold
     return slope_mask
 
-def diff2(a):    
+def diff(a):    
     return np.abs(a[:-1]-a[1:])
 
 def extract_temperature_deltas(time, data, N, plotPortions = False):
+    # performs N linear regressions after dividing the signal in N portions
+    # the coefficients obtain allow for adaptive selection of portions relevant to the calculation of fs
+    # returns the difference between successive samples in relvant portions for an estimation f the sampling period
     portion_size = len(data) // N
     slopes = []
     intercepts = []
@@ -144,7 +149,7 @@ def extract_temperature_deltas(time, data, N, plotPortions = False):
     
     # data_portions = data_portions
     slope_mask = detect_slope_portions(slopes, threshold = 1) # we detect which of the portions corrspond to ramp slopes
-    deltas =[diff2(data_portions[i]) for i in range(N) if slope_mask[i]]
+    deltas =[diff(data_portions[i]) for i in range(N) if slope_mask[i]]
     # we could study portion by portion if need be
     deltas = np.concatenate(deltas)
     
@@ -158,6 +163,8 @@ def extract_temperature_deltas(time, data, N, plotPortions = False):
     return deltas
 
 def compute_temperature_fs(time,temp,N=12):
+    # Computes an estimate of the sampling frequency for temperature
+    # N needs to be properly defined for efficient computation
     # TODO: add automatic computing for the appropriate N value
     return 1/np.mean(extract_temperature_deltas(time, temp, N))
 # %%
@@ -171,18 +178,3 @@ def plot(x,y):
     plt.ylabel("y")
     return
 
-# def data_parser(csv_file):
-#     return
-# %%
-
-# csv_file =  r"C:\Users\Admin\Documents\1 - School\4A\Internship\VTEC\work\Code\Vizualisation dashboard\gas_data_visualizer\data\HVAMMONIA03-2025-06-13.csv"
-# df = pd.read_csv(csv_file,delimiter = ",")
-
-# t = df['Unix Timestamp'].to_numpy()
-
-# def data_parser(csvname):
-#     return array_data
-
-# %%
-
-np.random.randn(1,100)
